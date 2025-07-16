@@ -11,25 +11,29 @@ document.getElementById('step1next').addEventListener('click', function () {
 });
 
 document.getElementById('calculatecost').addEventListener('click', function () {
-
-    ainput = document.getElementById('paxno').value;
+    revdate = document.getElementById('revdate').value;
+    numpax = document.getElementById('paxno').value;
     // binput = document.getElementById('binput').value; 
 
+    date = new Date(revdate);
+
     result = document.getElementById('result');
+    output = 0;
 
+    if (numpax < 1)
+        output = 0;
+    else if (numpax > 8)
+        output = 200;
+    else
+        output = numpax * 20;
 
-    result.innerHTML = parseInt(ainput) < 0 ? "Ghost 👻" : parseInt(ainput) > 50 ? "Go book a hall 🙄" : parseInt(ainput) <= 8 ? "🥰 $" + parseInt(ainput) * 20 : "😍 $" + 200;
+    if (isWeekend(revdate))
+        output *= 1.5;
 
-    /*
-let output = 0;
-
-if(ainput > 8){
-    output = 200;
-} else {
-    output = ainput * 20;
-}
-
-result.innerHTML = output;
-*/
-
+    result.innerHTML = "$" + output;
 });
+
+function isWeekend(date){
+    const day = new Date(date).getDay();
+    return (day === 0 || day === 6); // 0 - Sunday, 6 - Saturday
+}
